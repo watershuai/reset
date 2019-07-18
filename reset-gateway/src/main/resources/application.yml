@@ -1,0 +1,33 @@
+
+server:
+  port: 8766
+spring:
+  application:
+    name: reset-gateway
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${spring.application.instance_id:${server.port}}
+    appname: reset-gateway
+
+  spring:
+    thymeleaf:
+      cache: false
+      prefix: classpath:/templates/
+      suffix: .html
+      encoding: UTF-8
+      content-type: text/html
+      mode: HTML5
+    CommonsMultipartResolver:
+      defaultEncoding: utf-8
+      maxUploadSize: 10485760000
+      maxInMemorySize: 40960
+
+  #instance:
+   # prefer-ip-address: true
+    #instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${spring.application.instance_id:${server.port}}
+    #appname: reset-gateway
