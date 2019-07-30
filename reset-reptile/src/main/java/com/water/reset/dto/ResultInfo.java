@@ -17,6 +17,7 @@ public class ResultInfo implements Serializable {
         this.resultCode=resultCode;
         this.msg=msg;
         this.data=data;
+
     }
 
     public boolean isSuccess() {
