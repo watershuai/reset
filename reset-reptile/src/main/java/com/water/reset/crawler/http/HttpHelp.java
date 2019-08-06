@@ -6,6 +6,7 @@ import com.water.reset.service.IHttpCheck;
 import com.water.reset.utils.HttpUtil;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -23,6 +24,7 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.springframework.util.StringUtils;
+
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -34,28 +36,19 @@ import java.util.Map;
  * @author:water
  * @Data:
  */
+@Slf4j
 public class HttpHelp {
-    private static HttpUtil httpUtil=new HttpUtil();
-    public static HttpClient httpClient;
-    public static CookieStore cookieStore;
+    @Getter
+    protected  HttpUtil httpUtil;
+    @Getter
+    protected  HttpClient httpClient;
+    public  CookieStore cookieStore;
     @Getter
     @Setter
     private IHttpCheck iHttpCheck;
-    public HttpHelp(){
-        httpUtil=new HttpUtil();
-    }
 
-    public static void main(String[] args) throws IOException {
-        // CloseableHttpClient httpclient= HttpClients.createDefault();
-        // HttpGet httpget=new HttpGet("http://www.baidu.com");
-        /*CloseableHttpResponse response=httpclient.execute(httpget);
-        HttpEntity entity=response.getEntity();
-        System.out.println(entity);
-        String page= EntityUtils.toString(entity, "utf-8");
-        System.out.println(page);
-        response.close();
-        httpclient.close();*/
-        //execute("http://www.baidu.com", "", HttpMethod.GET, "");
+    public HttpHelp() {
+        httpUtil = new HttpUtil();
     }
 
     /**
@@ -64,32 +57,35 @@ public class HttpHelp {
      * @Data 2019/07/18
      * GET请求
      */
-    private String sendGet(String url) {
-        return sendGet(url,"");
+    public String sendGet(String url) {
+        return sendGet(url, "");
     }
+
     /**
      * @param url 请求地址
      * @author:water
      * @Data 2019/07/18
      */
-    private String sendGet(String url,String reqEncoding) {
-        return requestProcessing(url,"",HttpMethod.GET,reqEncoding);
+    public String sendGet(String url, String reqEncoding) {
+        return requestProcessing(url, "", HttpMethod.GET, reqEncoding);
     }
 
     /**
-     * @param  url 请求地址
+     * @param url 请求地址
      * @author:water
      * @Data 2019/07/18
      * POST请求
      */
-    private String sendPost(String url) {
-        return sendPost(url,"");
+    public String sendPost(String url) {
+        return sendPost(url, "");
     }
-    private String sendPost(String url,String param){
-        return sendPost(url,param,"");
+
+    public String sendPost(String url, String param) {
+        return sendPost(url, param, "");
     }
-    private String sendPost(String url,String param,String reqEncoding ){
-        return requestProcessing(url,param,HttpMethod.POST,"");
+
+    public String sendPost(String url, String param, String reqEncoding) {
+        return requestProcessing(url, param, HttpMethod.POST, "");
     }
 
     /**
@@ -98,23 +94,23 @@ public class HttpHelp {
      * @Data 2019/07/18
      * 请求后对请求的处理
      */
-    public  String requestProcessing(String url,String param, HttpMethod httpMethod, String reqEncoding){
-        String resultString="";
-       for (int i=1 ;i<=3 ;i++){
-           HttpInfo httpInfo=execute(url,param,httpMethod,reqEncoding);
-           resultString=httpInfo.getResultString();
-           if (iHttpCheck !=null){
-               resultString=iHttpCheck.advanceResult(resultString);
-           }
-           if (iHttpCheck !=null) {
-               if (!iHttpCheck.resultRetry(resultString)){
-                   break;
-               }
-           }else {
-               break;
-           }
-       }
-       return resultString;
+    private String requestProcessing(String url, String param, HttpMethod httpMethod, String reqEncoding) {
+        String resultString = "";
+        for (int i = 1; i <= 3; i++) {
+            HttpInfo httpInfo = execute(url, param, httpMethod, reqEncoding);
+            resultString = httpInfo.getResultString();
+            if (iHttpCheck != null) {
+                resultString = iHttpCheck.advanceResult(resultString);
+            }
+            if (iHttpCheck != null) {
+                if (!iHttpCheck.resultRetry(resultString)) {
+                    break;
+                }
+            } else {
+                break;
+            }
+        }
+        return resultString;
     }
 
     /**
@@ -124,11 +120,11 @@ public class HttpHelp {
      * @author:water
      * @Data 2019/07/26
      */
-    public  HttpInfo execute(String url, String param, HttpMethod httpMethod, String reqEncoding) {
+    private HttpInfo execute(String url, String param, HttpMethod httpMethod, String reqEncoding) {
         cookieStore = new BasicCookieStore();
         httpClient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
         HttpResponse httpResponse = null;
-        HttpInfo httpInfo=new HttpInfo();
+        HttpInfo httpInfo = new HttpInfo();
         //请求头
         try {
             if (httpMethod.equals(HttpMethod.POST)) {
@@ -155,8 +151,7 @@ public class HttpHelp {
                 httpInfo.setResultString(new String(rspdata, getCharset(reqEncoding)));
             }
             httpInfo.setStatusCode(httpResponse.getStatusLine().getStatusCode());
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
         }
         return httpInfo;
     }
