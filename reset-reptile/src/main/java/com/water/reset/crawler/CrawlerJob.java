@@ -22,11 +22,14 @@ public abstract class CrawlerJob implements IHttpCheck {
     private static final Integer QUEUE = 10;
     private static final Long ALIVE_TIME = 0L;
     private ThreadPoolExecutor executorService;
-
-    private HttpHelp httpHelp=new HttpHelp();
+    @Setter
+    private HttpHelp httpHelp;
 
     protected HttpHelp getHttpHelp(){
         return httpHelp;
+    }
+    public CrawlerJob(){
+        httpHelp=new HttpHelp();
     }
     /**
     * 对外爬虫入口
@@ -44,9 +47,12 @@ public abstract class CrawlerJob implements IHttpCheck {
     public Boolean resultRetry(String result) {
         return true;
     }
-
+    /**
+     * 开启并发抓取
+     * */
     private void doGrasp() {
         executorService = new ThreadPoolExecutor(POOL_SIZE, MAX_POOL_SIZE, ALIVE_TIME, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(QUEUE));
+        long startTime=System.currentTimeMillis();
         executorService.execute(() -> {
             try {
                 crawl();
@@ -55,6 +61,7 @@ public abstract class CrawlerJob implements IHttpCheck {
             }
         });
         executorService.shutdown();
+        log.info("任务执行结束，耗时:"+(System.currentTimeMillis()-startTime)+"ms");
     }
     /**
      * 具体实现重写入口

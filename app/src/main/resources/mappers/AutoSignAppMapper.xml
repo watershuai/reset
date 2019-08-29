@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiger.dao.AutoSignAppMapper">
+  <resultMap id="BaseResultMap" type="com.tiger.pojo.AutoSignApp">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="meal_id" jdbcType="INTEGER" property="mealId" />
+    <result column="bundle_id" jdbcType="VARCHAR" property="bundleId" />
+    <result column="display_name" jdbcType="VARCHAR" property="displayName" />
+    <result column="cc_name" jdbcType="VARCHAR" property="ccName" />
+    <result column="meal_desc" jdbcType="VARCHAR" property="mealDesc" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="free_update_num" jdbcType="INTEGER" property="freeUpdateNum" />
+    <result column="app_status" jdbcType="TINYINT" property="appStatus" />
+    <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, meal_id, bundle_id, display_name, cc_name, meal_desc, user_id, free_update_num, 
+    app_status, expire_time, create_time
+  </sql>
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiger.dao.AutoSignMealMapper">
+  <resultMap id="BaseResultMap" type="com.tiger.pojo.AutoSignMeal">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="meal_type_id" jdbcType="INTEGER" property="mealTypeId" />
+    <result column="effective_days" jdbcType="INTEGER" property="effectiveDays" />
+    <result column="meal_price" jdbcType="INTEGER" property="mealPrice" />
+    <result column="free_update_num" jdbcType="INTEGER" property="freeUpdateNum" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, meal_type_id, effective_days, meal_price, free_update_num, create_time, update_time
+  </sql>
+</mapper>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiger.dao.PayOrderMapper">
+  <resultMap id="BaseResultMap" type="com.tiger.pojo.PayOrder">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="account_id" jdbcType="BIGINT" property="accountId" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="pay_way" jdbcType="TINYINT" property="payWay" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_price" jdbcType="INTEGER" property="goodsPrice" />
+    <result column="pay_down_num" jdbcType="INTEGER" property="payDownNum" />
+    <result column="order_status" jdbcType="TINYINT" property="orderStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, account_id, order_id, pay_way, goods_name, goods_price, pay_down_num, order_status, 
+    create_time, update_time
+  </sql>
+
+  <update id="updateByOrderId" parameterType="com.tiger.pojo.PayOrder" >
+    update pay_order
+    <set >
+      <if test="accountId != null" >
+        account_id = #{accountId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null" >
+        goods_price = #{goodsPrice,jdbcType=INTEGER},
+      </if>
+      <if test="payDownNum != null" >
+        pay_down_num = #{payDownNum,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null" >
+        order_status = #{orderStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByCreateTimeInterval" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pay_order
+    <where>
+      <if test="payOrder.id != null" >
+        id = #{payOrder.id,jdbcType=BIGINT}
+      </if>
+      <if test="payOrder.accountId != null" >
+        AND account_id = #{payOrder.accountId,jdbcType=BIGINT}
+      </if>
+      <if test="payOrder.orderId != null" >
+        AND order_id = #{payOrder.orderId,jdbcType=VARCHAR}
+      </if>
+      <if test="payOrder.goodsName != null" >
+        AND goods_name = #{payOrder.goodsName,jdbcType=VARCHAR}
+      </if>
+      <if test="payOrder.goodsPrice != null" >
+        AND goods_price = #{payOrder.goodsPrice,jdbcType=INTEGER}
+      </if>
+      <if test="payOrder.payDownNum != null" >
+        AND payOrder.pay_down_num = #{payDownNum,jdbcType=INTEGER}
+      </if>
+      <if test="payOrder.orderStatus != null" >
+        AND order_status = #{payOrder.orderStatus,jdbcType=TINYINT}
+      </if>
+      <if test="payOrder.updateTime != null" >
+        AND update_time = #{payOrder.updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="startTime != null" >
+        AND create_time <![CDATA[>=]]> #{startTime}
+      </if>
+      <if test="endTime != null" >
+        AND create_time <![CDATA[<=]]> #{endTime}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectListByStatusAndIdList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pay_order
+    <where>
+      <foreach collection="accountList" item="accountId" open="account_id in (" close=")" separator=",">
+        #{accountId}
+      </foreach>
+      AND order_status=#{status}
+    </where>
+  </select>
+</mapper>

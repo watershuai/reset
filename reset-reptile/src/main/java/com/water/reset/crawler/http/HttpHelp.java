@@ -16,6 +16,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
+import org.apache.http.cookie.Cookie;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -42,13 +43,50 @@ public class HttpHelp {
     protected  HttpUtil httpUtil;
     @Getter
     protected  HttpClient httpClient;
-    public  CookieStore cookieStore;
+    public CookieStore cookieStore=new BasicCookieStore();
+
     @Getter
     @Setter
     private IHttpCheck iHttpCheck;
 
     public HttpHelp() {
         httpUtil = new HttpUtil();
+    }
+
+    /**
+     * 添加cookie对象
+     */
+    public final void addCookie(Cookie cookie) {
+        this.cookieStore.addCookie(cookie);
+    }
+
+    /**
+     * 清空当前CookieStore
+     */
+    public final void clearCookieStore() {
+        this.cookieStore.clear();
+    }
+
+    /**
+     * 获取当前CookieStore中的Cookie集合
+     */
+    public final List<Cookie> getCookies() {
+        return this.cookieStore.getCookies();
+    }
+
+    /**
+     * 获取CookieStore的字符串形式（key1=value1,key2=value2...）
+     */
+    public final String getCookieStoreString() {
+        StringBuilder cookieStr = new StringBuilder();
+        List<Cookie> cookies=getCookies();
+        for (Cookie cookie : cookies) {
+            cookieStr.append(cookie.getName())
+                    .append("=")
+                    .append(cookie.getValue())
+                    .append(";");
+        }
+        return cookieStr.length() < 1 ? "" : cookieStr.substring(0, cookieStr.length() - 1);
     }
 
     /**

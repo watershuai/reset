@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiger.dao.RemindMessageMapper">
+  <resultMap id="BaseResultMap" type="com.tiger.pojo.RemindMessage">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="flag" jdbcType="TINYINT" property="flag" />
+    <result column="next_send" jdbcType="VARCHAR" property="nextSend" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, user_id, phone, content, num, flag, next_send, create_time
+  </sql>
+
+  <select id="selectByTimeIntervalAndUserId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from remind_message
+    WHERE create_time <![CDATA[>=]]> #{startTime} AND create_time <![CDATA[<=]]> #{endTime} AND user_id=#{userId} ORDER BY user_id DESC
+  </select>
+</mapper>

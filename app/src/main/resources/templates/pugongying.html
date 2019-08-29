@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no minimal-ui"/>
+    <link rel="stylesheet" href="/templates/pugongying/header_include.min.css"/>
+    <link rel="stylesheet" href="/templates/pugongying/appView.css"/>
+    <link rel="stylesheet" href="/templates/pugongying/viewColorful.css"/>
+    <link rel="stylesheet" href="/templates/icon/iconfont.css"/>
+    <!--<link rel="stylesheet" href="/templates/css/bootstrap.min.css"/>-->
+    <script src="/templates/js/jquery.js"></script>
+    <script src="/templates/js/jquery.rotate.min.js"></script>
+    <script src="/templates/js/jquery.qrcode.min.js"></script>
+    <script src="/templates/js/common.js"></script>
+    <script src="/templates/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="row-fluid  margin-bottom-20" style="z-index:-2;">
+    <div id="header">
+        <img style="width: 100%" src="/templates/pugongying/top_bg_mobile_ratio.png"/>
+    </div>
+</div>
+<div class="container content" th:attr="id=${'page_'+pkgInfo.osName},link=${pkgInfo.shortLink}" style="display: none"
+     th:each="pkgInfo,userStat:${pkgInfos}">
+
+    <div class="view row">
+        <div class="span12 margin-bottom-30 " id="appicon-bg">
+            <img th:attr="src=${pkgInfo.iConData}" onerror="https://static.pgyer.com/static-20180930/assets/img/default-icon.png" class="appicon"/>
+        </div>
+        <div class="span12" style="text-align:center;padding-top:10px;">
+            <h2 style="color:#333;size:24px;margin-bottom: -5px;">
+                <i id="os" class="iconfont"
+                   th:classappend="${pkgInfo.osName=='iOS'?'icon-ios':'icon-anzhuo'}"></i>
+                <span th:text="${pkgInfo.appName}"></span> <span class="label label-danger signature-label signature_in_house ">企业版</span>
+            </h2>
+        </div>
+
+        <div class="span12 gray-text " style="text-align:center;">
+            <ul class="breadcrumb ">
+                <li th:text="${'版本：'+pkgInfo.appVersion}"></li>
+                <li th:text="${'大小：'+(pkgInfo.pkgFileSize/(1024*1024))+'M'}"></li>
+                <li th:text="${'更新时间：'+#dates.format(pkgInfo.updateTime,'yyyy-MM-dd HH:mm:ss')}"></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div id="" class="view row margin-bottom-30 col-md-6 col-md-offset-3" style="padding-top:26px;">
+        <div id="qrcode" style="display: none"></div>
+        <div class="col-md-12" style="text-align: center">
+            <div class="span12 margin-bottom-30 qrcode">
+                <img src="" style="width: 30%"/>
+            </div>
+        </div>
+        <div class="col-md-12" style="margin-top:20px;">
+            <div class="row mb-10 install-btn">
+                <div class="span12 margin-bottom-20" style="text-align:center;">
+                    <div class="spinner">
+                        <div id="showtext">正在安装，请按 Home 键在桌面查看</div>
+                        <div class="loading"></div>
+                        <a href="#" onclick="install()" id="down_load" class="btn-u btn-u-lg">
+                            <img src="https://static.pgyer.com/static-20180930/images/dl.png" class="hide"/>
+                            点击安装 </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="span12 gray-text" style="text-align:center; ">
+                <p style="padding-top:10px;color:#969b9d;">或者用手机扫描二维码安装</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title text-center" id="myModalLabel">
+                    安装引导
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <h5>正在下载... 请按HOME键在桌面查看</h5>
+                    <br/>
+                    <img id="quan" style="width: 2em;height: 2em" src="/templates/images/quan.png"/>
+                    <button onclick="open_settings()" id="down_success" class="btn btn-success" style="display: none">确认下载后，继续安装</button>
+                </div>
+                <br/>
+                <a href="/templates/images/iosGuide.png">无法安装？</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="/templates/js/yran.js"></script>
+</html>

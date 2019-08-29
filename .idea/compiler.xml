@@ -6,14 +6,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="app" />
         <module name="reset" />
+        <module name="reset-analysis" />
         <module name="reset-eureka" />
         <module name="reset-gateway" />
         <module name="reset-reptile" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="app" target="1.8" />
       <module name="reset" target="1.8" />
+      <module name="reset-analysis" target="1.8" />
       <module name="reset-eureka" target="1.8" />
       <module name="reset-gateway" target="1.8" />
       <module name="reset-reptile" target="1.8" />

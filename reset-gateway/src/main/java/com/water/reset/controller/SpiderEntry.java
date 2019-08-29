@@ -14,9 +14,9 @@ public class SpiderEntry {
     @Resource
     private IReptileService reptileService;
 
-    @RequestMapping("/task")
+   /* @RequestMapping("/task")
     public String spiderTask(){
         String result=reptileService.task("147853");
         return result;
-    }
+    }*/
 }

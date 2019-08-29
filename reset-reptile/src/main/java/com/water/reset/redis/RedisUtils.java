@@ -16,14 +16,14 @@ import redis.clients.jedis.JedisPool;
 @Slf4j
 public class RedisUtils {
     @Autowired
-    private JedisPool jedisPool;
+    private  JedisPool jedisPool;
 
     /**
      * 释放资源
      * @param jedis
      */
     @SuppressWarnings("deprecation")
-    public void returnResource(Jedis jedis) {
+    public  void returnResource(Jedis jedis) {
         if (jedis != null && jedisPool != null) {
             jedisPool.returnResource(jedis);
         }
@@ -58,7 +58,7 @@ public class RedisUtils {
      * @Data 2019/07/18
      * @Description: 存在String类型字符串
      */
-    public void setString(String key,String value){
+    public  void setString(String key,String value){
         Jedis jedis=jedisPool.getResource();
         try {
             System.out.println(jedis.set(key,value));
@@ -69,6 +69,7 @@ public class RedisUtils {
             returnResource(jedis);
         }
     }
+
     /**
      * @param key 键
      * @author:water

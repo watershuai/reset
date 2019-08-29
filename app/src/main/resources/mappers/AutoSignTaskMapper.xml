@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiger.dao.AutoSignTaskMapper">
+  <resultMap id="BaseResultMap" type="com.tiger.pojo.AutoSignTask">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="task_num" jdbcType="BIGINT" property="taskNum" />
+    <result column="auto_sign_app_id" jdbcType="BIGINT" property="autoSignAppId" />
+    <result column="task_status" jdbcType="TINYINT" property="taskStatus" />
+    <result column="download_url" jdbcType="VARCHAR" property="downloadUrl" />
+    <result column="user_download_url" jdbcType="VARCHAR" property="userDownloadUrl" />
+    <result column="cc_name" jdbcType="VARCHAR" property="ccName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, task_num, auto_sign_app_id, task_status, download_url, user_download_url, cc_name, 
+    create_time, update_time
+  </sql>
+</mapper>

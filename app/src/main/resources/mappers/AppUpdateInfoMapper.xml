@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiger.dao.AppUpdateInfoMapper">
+  <resultMap id="BaseResultMap" type="com.tiger.pojo.AppUpdateInfo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="app_id" jdbcType="BIGINT" property="appId" />
+    <result column="app_version" jdbcType="VARCHAR" property="appVersion" />
+    <result column="min_os_version" jdbcType="VARCHAR" property="minOsVersion" />
+    <result column="pkg_local_path" jdbcType="VARCHAR" property="pkgLocalPath" />
+    <result column="pkg_file_size" jdbcType="BIGINT" property="pkgFileSize" />
+    <result column="update_log" jdbcType="VARCHAR" property="updateLog" />
+    <result column="oss_url" jdbcType="VARCHAR" property="ossUrl" />
+    <result column="plist_url" jdbcType="VARCHAR" property="plistUrl" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, app_id, app_version, min_os_version, pkg_local_path, pkg_file_size, update_log, 
+    oss_url, plist_url, create_time
+  </sql>
+
+  <select id="queryLastVersionInfoByAppIds" parameterType="java.util.List" resultMap="BaseResultMap">
+    SELECT * FROM (
+    select
+    <include refid="Base_Column_List"/>
+    from app_update_info
+    WHERE id in (SELECT max(id) FROM app_update_info GROUP BY app_id )
+    ) t
+    WHERE t.app_id in
+    <foreach collection="list" open="(" separator="," close=")" item="appId">
+      #{appId}
+    </foreach>
+  </select>
+
+  <delete id="deleteByAppId" parameterType="java.lang.Long">
+    DELETE FROM app_update_info WHERE app_id=#{appId}
+  </delete>
+</mapper>

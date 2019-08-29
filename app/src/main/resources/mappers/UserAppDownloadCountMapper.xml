@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiger.dao.UserAppDownloadCountMapper">
+  <resultMap id="BaseResultMap" type="com.tiger.pojo.UserAppDownloadCount">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="app_id" jdbcType="BIGINT" property="appId" />
+    <result column="app_name" jdbcType="VARCHAR" property="appName" />
+    <result column="app_os_name" jdbcType="VARCHAR" property="appOsName" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="count_time" jdbcType="VARCHAR" property="countTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, user_id, app_id, app_name, app_os_name, num, count_time, create_time
+  </sql>
+
+  <select id="selectAppDownloadDataCountByTimeInterval" resultType="com.tiger.model.AppDownloadData">
+    SELECT SUM(num) AS num,user_id as userId FROM user_app_download_count
+    WHERE create_time <![CDATA[>=]]> #{startTime} AND create_time <![CDATA[<=]]> #{endTime} GROUP BY user_id
+  </select>
+</mapper>

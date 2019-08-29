@@ -11,4 +11,7 @@ eureka:
     prefer-ip-address: true
     instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${spring.application.instance_id:${server.port}}
     appname: reset-reptile
+logging:
+  config: classpath:logback.xml
+
 

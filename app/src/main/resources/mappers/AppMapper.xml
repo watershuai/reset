@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiger.dao.AppMapper">
+  <resultMap id="BaseResultMap" type="com.tiger.pojo.App">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="icon_id" jdbcType="BIGINT" property="iconId" />
+    <result column="account_id" jdbcType="INTEGER" property="accountId" />
+    <result column="bundle_id" jdbcType="VARCHAR" property="bundleId" />
+    <result column="app_name" jdbcType="VARCHAR" property="appName" />
+    <result column="os_name" jdbcType="VARCHAR" property="osName" />
+    <result column="short_link" jdbcType="VARCHAR" property="shortLink" />
+    <result column="app_desc" jdbcType="VARCHAR" property="appDesc" />
+    <result column="down_num" jdbcType="BIGINT" property="downNum" />
+    <result column="pkg_type" jdbcType="TINYINT" property="pkgType" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, icon_id, account_id, bundle_id, app_name, os_name, short_link, app_desc, down_num, 
+    pkg_type, create_time, update_time
+  </sql>
+  <select id="selectByIdList" parameterType="list" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from app
+    WHERE id IN
+    <foreach collection="list" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </select>
+
+  <update id="appDownNumIncrementById" parameterType="java.lang.Long">
+    update app set down_num=down_num+1 where id=#{id}
+  </update>
+
+</mapper>

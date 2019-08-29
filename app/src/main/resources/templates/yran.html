@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport"
+          content="minimal-ui,width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <title></title>
+    <link rel="shortcut icon" href="/templates/images/favicon-20181202122032510.ico"/>
+    <link rel="stylesheet" href="/templates/assets/stylesheets/b07a0166.download.css"/>
+    <link rel="stylesheet" href="/templates/icon/iconfont.css"/>
+    <link rel="stylesheet" href="/templates/css/bootstrap.min.css"/>
+    <script src="/templates/js/jquery.js"></script>
+    <script src="/templates/js/jquery.rotate.min.js"></script>
+    <script src="/templates/js/bootstrap.min.js"></script>
+    <script src="/templates/js/jquery.qrcode.min.js"></script>
+    <script src="/templates/js/common.js"></script>
+    <script src="/templates/layer/layer.js"></script>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .weixin-tip {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            filter: alpha(opacity=80);
+            height: 100%;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .weixin-tip p {
+            text-align: center;
+            margin-top: 10%;
+            padding: 0 5%;
+        }
+    </style>
+</head>
+<body class="app">
+<div class="masklayer" id="MaskLayer" style="display:none"></div>
+<span class="pattern left">
+    <img src="/templates/images/pattern_left.png"/>
+</span>
+<span class="pattern right">
+<img src="/templates/images/pattern_right.png"/>
+</span>
+<div class="wechat_tip_content"></div>
+<div class="out-container">
+    <div th:attr="id=${'page_'+pkgInfo.osName},link=${pkgInfo.shortLink},osName=${pkgInfo.osName}" class="main" style="display: none"
+         th:each="pkgInfo,userStat:${pkgInfos}">
+        <header itemscope="" itemtype="http://schema.org/SoftwareApplication">
+            <div class="table-container">
+                <div class="cell-container">
+                    <div class="app-brief">
+                        <div>
+                            <h4>安装提示：</h4>
+                            <p>如果您是在微信中打开此网页<br/>为避免影响您正常下载<br/>请重新打开该网页 选择访问原网页 </p>
+                        </div>
+                        <div class="icon-container wrapper">
+                            <i class="icon-icon_path bg-path"></i>
+                            <span class="icon">
+                                <img id="app_icon" src="" th:attr=" src=${pkgInfo.iConData}" itemprop="image"/>
+                            </span>
+                            <div id="qrcode" style="display: none"></div>
+                            <span class="qrcode" title="">
+                                <!--<canvas width="200" height="200" ></canvas>-->
+                                <img alt="Scan me!" src=""/>
+                            </span>
+                        </div>
+
+                        <p class="release-type wrapper"></p>
+
+                        <h1 class="name wrapper">
+                        <span class="icon-warp">
+                            <i id="os" class="iconfont"
+                               th:classappend="${pkgInfo.osName=='iOS'?'icon-ios':'icon-anzhuo'}"></i>
+                            <a th:attr="id=${pkgInfo.osName+'_appName'},class=${pkgInfo.shortLink+'_appName'}"
+                               th:text="${''+pkgInfo.appName}"></a>
+                        </span>
+
+                        </h1>
+                        <p class="scan-tips">扫描二维码下载<br/></p>
+                        <div class="release-info">
+                            <p><span id="version_filesize" itemprop="softwareVersion"
+                                     th:text="${pkgInfo.appVersion+' (build) - '+(pkgInfo.pkgFileSize/(1024*1024))+'M'}"></span>
+                            </p>
+                            <p>更新于: <span th:text="${#dates.format(pkgInfo.updateTime,'yyyy-MM-dd HH:mm:ss')}">2018-08-21 15:36</span>
+                            </p>
+                        </div>
+                        <input id="plistUrl" type="hidden"/>
+                        <input id="ossUrl" type="hidden"/>
+                        <a id="untrusted" data-toggle="modal" onclick="install_warn();" href="javascript:void(0)"
+                           style="color: #1abc9c;"><i class="fa fa-hand-o-right" aria-hidden="true"
+                                                      style="padding-right:5px;"></i>"未受信任的企业级开发者"的解决办法</a>
+                        <div id="actions" th:attr="class=${pkgInfo.osName+' actions type-ios'}">
+                            <button onclick="install()">下载安装</button>
+                        </div>
+                    </div>
+                    <div id="footer" class="footer">
+                        <div style="margin-top: 1em">
+                            <marquee direction="up" scrollamount="1" style="width: 310px;height: 25px;" id="">请自行甄别应用风险，如应用存在问题，可点击“举报”按钮，将违规信息发送给腾讯QQ及微信团队！</marquee>
+                            <a style="margin-bottom: 1em" class="one-key-report" href="/templates/ts/index.html" target="_self">举报!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+    </div>
+</div>
+
+<div class="navbar-fixed-bottom">
+    <img th:if="${url}" style="height: 4em;" onclick="advertisementLink()" th:attr="src=${url}"/>
+    <input type="hidden" th:id="advertisementLink" th:value="${linkUrl}"/>
+</div>
+
+<div class="weixin-tip">
+    <p>
+        <img id="Android_tips" style="display: none" src="/templates/images/weixin1.png" alt="微信打开"/>
+        <img id="iOS_tips" style="display: none" src="/templates/images/weixin2.png" alt="微信打开"/>
+    </p>
+</div>
+
+<div class="modal" id="installModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title text-center" id="myModalLabel">
+                    安装引导
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <h5>正在下载... 请按HOME键在桌面查看</h5>
+                    <br/>
+                    <img id="quan" style="width: 2em;height: 2em" src="/templates/images/quan.png"/>
+                    <button onclick="open_settings()" id="down_success" class="btn btn-success" style="display: none">
+                        确认下载后，继续安装
+                    </button>
+                </div>
+                <br/>
+                <!--<a href="/templates/images/iosGuide.png">无法安装？</a>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title font-16">未受信任的企业级开发者"的解决办法</h4>
+            </div>
+            <div class="modal-body" style="background:#f2f2f2;height:600px;overflow-y: scroll;">
+                <section>
+                    <div style="padding:0 20px 20px;color:#333;">
+                        <p>因苹果公司的政策原因，在iOS系统中首次安装企业版应用时会出现"未受信任的企业级开发者"提示</p>
+                    </div>
+                    <div style="padding:0 10px 20px;">
+                        <img class="img-responsive center-block mt-20 mb-20"
+                             src="https://static.pgyer.com/static-20190110/images/resovelFlow1_cn.png"
+                             style="width:80%;"/>
+                        <br/>
+                        <h4 class="font-16">解决办法如下（以iOS11系统为例）：</h4>
+                        <li style="list-style:none;color:#333;">1、在手机中打开设置功能，选择"通用"</li>
+                        <img class="img-responsive center-block mt-20 mb-20"
+                             src="https://static.pgyer.com/static-20190110/images/resovelFlow2_cn.png"
+                             style="width:80%;"/>
+                        <li style="list-style:none;color:#333;">2、在通用中，选择"描述文件与设备管理"功能</li>
+                        <img class="img-responsive center-block mt-20 mb-20"
+                             src="https://static.pgyer.com/static-20190110/images/resovelFlow3_cn.png"
+                             style="width:80%;"/>
+                        <li style="list-style:none;color:#333;">3、在描述文件与设备管理中的企业级应用分类中，选择要安装的企业应用的文件名称（与打开时的提示一致），点击进入
+                        </li>
+                        <img class="img-responsive center-block mt-20 mb-20"
+                             src="https://static.pgyer.com/static-20190110/images/resovelFlow4_cn.png"
+                             style="width:80%;"/>
+                        <li style="list-style:none;color:#333;">4、进入企业签名页面后，确认企业签名中的公司名称与应用名称后，点击信任"企业签名公司名称"</li>
+                        <img class="img-responsive center-block mt-20 mb-20"
+                             src="https://static.pgyer.com/static-20190110/images/resovelFlow5_cn.png"
+                             style="width:80%;"/>
+                        <img class="img-responsive center-block mt-20 mb-20"
+                             src="https://static.pgyer.com/static-20190110/images/resovelFlow6_cn.png"
+                             style="width:80%;"/>
+                        <li style="list-style:none;color:#333;">5、回到桌面，重新打开应用即可使用</li>
+                        <br/>
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer" style="margin-top:0px">
+                <a data-dismiss="modal" href="javascript:void(0)" class="btn btn-u btn-u btn-u-default" id="cancle"
+                   style="border-radius:0;width:auto;height:auto;">关闭</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="/templates/js/yran.js"></script>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?313980f33ee90fa0d0078ba5a65c3af5";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+</html>

@@ -2,12 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/reset.iml" filepath="$PROJECT_DIR$/reset.iml" />
-      <module fileurl="file://$PROJECT_DIR$/reset-eureka/reset-eureka.iml" filepath="$PROJECT_DIR$/reset-eureka/reset-eureka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/reset-analysis/reset-analysis.iml" filepath="$PROJECT_DIR$/reset-analysis/reset-analysis.iml" />
       <module fileurl="file://$PROJECT_DIR$/reset-eureka/reset-eureka.iml" filepath="$PROJECT_DIR$/reset-eureka/reset-eureka.iml" />
       <module fileurl="file://$PROJECT_DIR$/reset-gateway/reset-gateway.iml" filepath="$PROJECT_DIR$/reset-gateway/reset-gateway.iml" />
-      <module fileurl="file://$PROJECT_DIR$/reset-gateway/reset-gateway.iml" filepath="$PROJECT_DIR$/reset-gateway/reset-gateway.iml" />
-      <module fileurl="file://$PROJECT_DIR$/reset-reptile/reset-reptile.iml" filepath="$PROJECT_DIR$/reset-reptile/reset-reptile.iml" />
       <module fileurl="file://$PROJECT_DIR$/reset-reptile/reset-reptile.iml" filepath="$PROJECT_DIR$/reset-reptile/reset-reptile.iml" />
     </modules>
   </component>

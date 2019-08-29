@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport"
+          content="minimal-ui,width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <title></title>
+    <!-- <link rel="shortcut icon" href="/templates/images/bitbug_favicon.ico"/> -->
+    <link rel="stylesheet" href="/templates/assets/stylesheets/b07a0166.download.css"/>
+    <link rel="stylesheet" href="/templates/icon/iconfont.css"/>
+    <link rel="stylesheet" href="/templates/css/bootstrap.min.css"/>
+    <script src="/templates/js/jquery.js"></script>
+    <script src="/templates/js/jquery.rotate.min.js"></script>
+    <script src="/templates/js/bootstrap.min.js"></script>
+    <script src="/templates/js/jquery.qrcode.min.js"></script>
+    <script src="/templates/js/common.js"></script>
+    <script src="/templates/layer/layer.js"></script>
+
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .weixin-tip {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            filter: alpha(opacity=80);
+            height: 100%;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .weixin-tip p {
+            text-align: center;
+            margin-top: 10%;
+            padding: 0 5%;
+        }
+    </style>
+</head>
+<body class="app">
+<div class="masklayer" id="MaskLayer" style="display:none"></div>
+<span class="pattern left">
+    <img src="/templates/images/pattern_left.png"/>
+</span>
+<span class="pattern right">
+<img src="/templates/images/pattern_right.png"/>
+</span>
+<div class="wechat_tip_content"></div>
+<div class="out-container">
+    <div  class="main">
+        <header itemscope="" itemtype="http://schema.org/SoftwareApplication">
+            <div class="table-container">
+                <div class="cell-container">
+                    <div class="app-brief">
+                        <div class="icon-container wrapper">
+                            <i class="icon-icon_path bg-path"></i>
+                            <span class="icon">
+                                <img id="app_icon" th:src="${mobileConfigApp.iconUrl}" itemprop="image"/>
+                            </span>
+                            <div id="qrcode" style="display: none"></div>
+                            <span class="qrcode" title="">
+                                <!--<canvas width="200" height="200" ></canvas>-->
+                                <img alt="Scan me!" src=""/>
+                            </span>
+                        </div>
+
+                        <p class="release-type wrapper"></p>
+
+                        <h1 class="name wrapper">
+                        <span class="icon-warp">
+                            <i id="os" class="iconfont icon-ios"></i>
+                            <a th:text="${mobileConfigApp.appName}"></a>
+                        </span>
+
+                        </h1>
+                        <p class="scan-tips">扫描二维码下载<br/></p>
+                        <div class="release-info">
+                            <p>
+                            </p>
+                            <p>更新于: <span th:text="${#dates.format(mobileConfigApp.updateTime,'yyyy-MM-dd HH:mm:ss')}">2019-04-05 01:00:00</span>
+                            </p>
+                        </div>
+                        <!-- <input id="plistUrl" type="hidden"/>
+                        <input id="ossUrl" type="hidden"/>
+                        <a data-toggle="modal" onclick="install_warn();" href="javascript:void(0)"
+                           style="color: #1abc9c;"><i class="fa fa-hand-o-right" aria-hidden="true"
+                                                      style="padding-right:5px;"></i>"未受信任的企业级开发者"的解决办法</a> -->
+                        <div id="actions" class="actions type-ios">
+                            <button th:onclick="'pkg_install('+${mobileConfigApp.id}+')'">下载安装</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+</div>
+
+<div class="weixin-tip">
+    <p>
+        <img id="Android_tips" style="display: none" src="/templates/images/weixin1.png" alt="微信打开"/>
+        <img id="iOS_tips" style="display: none" src="/templates/images/weixin2.png" alt="微信打开"/>
+    </p>
+</div>
+
+</body>
+<script src="/templates/js/mobileconfig.js"></script>
+<script type="application/javascript">
+    function pkg_install(id){
+        $.post("/app/download/mobileconfig/"+id,function(data){
+
+            if (data.errorCode>0){
+                layer.msg("描述文件下载点数不足，请联系应用提供商",{
+                    time:9999999
+                })
+                return
+            }
+
+            var url=JSON.parse(data).data
+            window.location.href = url
+        })
+
+    }
+</script>
+</html>

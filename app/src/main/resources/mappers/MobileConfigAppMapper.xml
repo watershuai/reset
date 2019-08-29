@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiger.dao.MobileConfigAppMapper">
+  <resultMap id="BaseResultMap" type="com.tiger.pojo.MobileConfigApp">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="app_name" jdbcType="VARCHAR" property="appName" />
+    <result column="icon_url" jdbcType="VARCHAR" property="iconUrl" />
+    <result column="mobile_config_url" jdbcType="VARCHAR" property="mobileConfigUrl" />
+    <result column="download_num" jdbcType="BIGINT" property="downloadNum" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, user_id, app_name, icon_url, mobile_config_url, download_num, status, expire_time, 
+    create_time, update_time
+  </sql>
+</mapper>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiger.dao.AccountMapper">
+  <resultMap id="BaseResultMap" type="com.tiger.pojo.Account">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
+    <result column="free_down_num" jdbcType="INTEGER" property="freeDownNum" />
+    <result column="pay_down_num" jdbcType="INTEGER" property="payDownNum" />
+    <result column="mobileconfig_down_num" jdbcType="BIGINT" property="mobileconfigDownNum" />
+    <result column="is_vip" jdbcType="TINYINT" property="isVip" />
+    <result column="vip_expire_time" jdbcType="TIMESTAMP" property="vipExpireTime" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="ca_status" jdbcType="TINYINT" property="caStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, account, password, token, free_down_num, pay_down_num, mobileconfig_down_num, 
+    is_vip, vip_expire_time, type, ca_status, create_time
+  </sql>
+
+  <update id="updateByAccount" parameterType="com.tiger.pojo.Account" >
+    update account
+    <set >
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null" >
+        token = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="freeDownNum != null" >
+        free_down_num = #{freeDownNum,jdbcType=INTEGER},
+      </if>
+      <if test="payDownNum != null" >
+        pay_down_num = #{payDownNum,jdbcType=INTEGER},
+      </if>
+      <if test="isVip != null">
+        is_vip = #{isVip,jdbcType=TINYINT},
+      </if>
+      <if test="vipExpireTime != null">
+        vip_expire_time = #{vipExpireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where account = #{account,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByIdList" parameterType="java.util.List" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from account
+    WHERE id IN
+    <foreach collection="list" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </select>
+
+  <update id="payDownNumDecrementById">
+    update account set pay_down_num = pay_down_num-#{num} where id=#{id}
+  </update>
+  <update id="freeDownNumDecrementById">
+    update account set free_down_num = free_down_num-#{num} where id=#{id}
+  </update>
+</mapper>

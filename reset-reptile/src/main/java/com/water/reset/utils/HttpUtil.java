@@ -42,6 +42,12 @@ public final class HttpUtil {
 
    public HttpUtil(){
        headerList=new ArrayList<>();
+       headerList.add(new BasicHeader(ACCEPT, DEFAULT_ACCEPT_VALUE));
+       headerList.add(new BasicHeader(CONTENT_TYPE, "application/x-www-form-urlencoded"));//form表单
+       headerList.add(new BasicHeader(USERAGENT, DEFAULT_USERAGENT_VALUE));//默认代理客户端头
+       //禁止服务器使用缓存
+       headerList.add(new BasicHeader(CACHE_CONTROL, DEFAULT_CACHE_CONTROL_VALUE));
+       headerList.add(new BasicHeader(PRAGMA, DEFAULT_CACHE_CONTROL_VALUE));
     }
 
     /**
@@ -50,12 +56,12 @@ public final class HttpUtil {
      * @author:water
      * @Data 2019/07/18
      */
-    public synchronized void updataHeader(String name,String value){
+    public synchronized void updateHeader(String name,String value){
        Header header=getHeaderByName(name);
        if (null == header){
            headerList.add(new BasicHeader(name,value));
        }else {
-           headerList.remove(name);
+           headerList.remove(header);
            headerList.add(new BasicHeader(name,value));
        }
     }
@@ -78,12 +84,6 @@ public final class HttpUtil {
      * @return  将list头文件转成数组
      */
     public synchronized Header[] listHeadersToAll() {
-        headerList.add(new BasicHeader(ACCEPT, DEFAULT_ACCEPT_VALUE));
-        headerList.add(new BasicHeader(CONTENT_TYPE, "application/x-www-form-urlencoded"));//form表单
-        headerList.add(new BasicHeader(USERAGENT, DEFAULT_USERAGENT_VALUE));//默认代理客户端头
-        //禁止服务器使用缓存
-        headerList.add(new BasicHeader(CACHE_CONTROL, DEFAULT_CACHE_CONTROL_VALUE));
-        headerList.add(new BasicHeader(PRAGMA, DEFAULT_CACHE_CONTROL_VALUE));
         Header[] allHeader = new Header[headerList.size()];//转成所需要的类型
         return headerList.toArray(allHeader);
     }
