@@ -1,12 +1,23 @@
 package com.water.reset.crawler;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.water.reset.crawler.http.HttpHelp;
+import com.water.reset.dto.Message;
+import com.water.reset.redis.RedisUtils;
 import com.water.reset.service.IHttpCheck;
+import com.water.reset.utils.DataUtil;
+import com.water.reset.utils.KafkaService;
+import com.water.reset.utils.Tool;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import java.util.concurrent.*;
 
@@ -16,16 +27,20 @@ import java.util.concurrent.*;
  * @Data:
  */
 @Slf4j
+@Service
 public abstract class CrawlerJob implements IHttpCheck {
     private static final Integer POOL_SIZE = 6;
     private static final Integer MAX_POOL_SIZE = 17;
     private static final Integer QUEUE = 10;
     private static final Long ALIVE_TIME = 0L;
+    private final ConcurrentHashMap<String, String> parsePage=new ConcurrentHashMap<>();
     private ThreadPoolExecutor executorService;
     @Setter
     private HttpHelp httpHelp;
+    @Setter
+    protected KafkaService kafkaService;
 
-    protected HttpHelp getHttpHelp(){
+    public HttpHelp getHttpHelp(){
         return httpHelp;
     }
     public CrawlerJob(){
@@ -61,10 +76,26 @@ public abstract class CrawlerJob implements IHttpCheck {
             }
         });
         executorService.shutdown();
-        log.info("任务执行结束，耗时:"+(System.currentTimeMillis()-startTime)+"ms");
+        log.info("爬虫任务执行结束，耗时:"+(System.currentTimeMillis()-startTime)+"ms");
     }
     /**
      * 具体实现重写入口
      **/
-    protected abstract void crawl();
+    public abstract void crawl();
+
+    /**
+     * 调用kafka解析服务
+     */
+    public void kafkaParse(String page){
+        Message message=new Message();
+       try {
+           message.setId(Tool.getId(3));
+           message.setMsg(page);
+           message.setSendTime(DataUtil.getCurrentTime());
+           message.setToken("");
+           kafkaService.sendMessage(message);
+       }catch (Exception e){
+           log.error("[{}]调用kafka服务异常：{}",message.getId(), e);
+       }
+    }
 }

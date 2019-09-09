@@ -16,7 +16,7 @@ import redis.clients.jedis.JedisPool;
 @Slf4j
 public class RedisUtils {
     @Autowired
-    private  JedisPool jedisPool;
+    private   JedisPool jedisPool;
 
     /**
      * 释放资源
@@ -34,7 +34,7 @@ public class RedisUtils {
      * @Data 2019/07/18
      * @Description: 根据键获取值
      */
-    public String getValueByKey(String key){
+    public  String getValueByKey(String key){
         Jedis jedis=jedisPool.getResource();
         String value="";
         if (StringUtils.isEmpty(key)){
@@ -76,7 +76,7 @@ public class RedisUtils {
      * @Data 2019/07/18
      * @Description: 判断是否存在该key
      */
-    public boolean isExist(String key){
+    public   boolean isExist(String key){
         Jedis jedis=jedisPool.getResource();
         boolean flag=false;
         try {
@@ -96,7 +96,7 @@ public class RedisUtils {
      * @Data 2019/07/18
      * @Description: 给key设置过期时间
      */
-    public void expire(String key,int time){
+    public  void expire(String key,int time){
         Jedis jedis=jedisPool.getResource();
         try {
            jedis.expire(key,time);
@@ -114,12 +114,12 @@ public class RedisUtils {
      * @return -5：Jedis实例获取失败，1：成功，0：失败
      * @author water
      */
-    public void delete(String... keys) {
+    public  void delete(String... keys) {
         Jedis jedis = jedisPool.getResource();
         try {
             jedis.del(keys);
         } catch (Exception e) {
-            log.info(String.format("删除key=%s失败：" + e.getMessage(), keys), e);
+            log.info(String.format("删除key=%s失败：" + e.getMessage()), e);
             returnResource(jedis);
         } finally {
             returnResource(jedis);

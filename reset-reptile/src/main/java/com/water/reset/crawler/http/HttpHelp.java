@@ -7,10 +7,7 @@ import com.water.reset.utils.HttpUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
+import org.apache.http.*;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
@@ -40,10 +37,10 @@ import java.util.Map;
 @Slf4j
 public class HttpHelp {
     @Getter
-    protected  HttpUtil httpUtil;
+    protected HttpUtil httpUtil;
     @Getter
-    protected  HttpClient httpClient;
-    public CookieStore cookieStore=new BasicCookieStore();
+    protected HttpClient httpClient;
+    public CookieStore cookieStore = new BasicCookieStore();
 
     @Getter
     @Setter
@@ -51,6 +48,15 @@ public class HttpHelp {
 
     public HttpHelp() {
         httpUtil = new HttpUtil();
+    }
+
+    @Getter
+    protected HttpHost httpHost;
+
+    public final HttpHost setProxy(String ip,int host,String scheme) {
+        //httpHost = StringUtils.isEmpty(ip) ? null : HttpHost.create(ip);
+        httpHost=new HttpHost(ip,host,scheme);
+        return httpHost;
     }
 
     /**
@@ -79,7 +85,7 @@ public class HttpHelp {
      */
     public final String getCookieStoreString() {
         StringBuilder cookieStr = new StringBuilder();
-        List<Cookie> cookies=getCookies();
+        List<Cookie> cookies = getCookies();
         for (Cookie cookie : cookies) {
             cookieStr.append(cookie.getName())
                     .append("=")
@@ -165,6 +171,9 @@ public class HttpHelp {
         HttpInfo httpInfo = new HttpInfo();
         //请求头
         try {
+            RequestConfig requestConfig = RequestConfig.custom()
+                    .setProxy(this.getHttpHost())
+                    .build();
             if (httpMethod.equals(HttpMethod.POST)) {
                 HttpPost httpPost = new HttpPost(url);
                 StringEntity stringEntity = new StringEntity(param == null ? "" : param, getCharset(reqEncoding));
@@ -172,6 +181,7 @@ public class HttpHelp {
                 if (contentTypeHeader != null) {
                     stringEntity.setContentType(contentTypeHeader);
                 }
+                httpPost.setConfig(requestConfig);
                 httpPost.setEntity(stringEntity);
                 httpPost.setHeaders(httpUtil.listHeadersToAll());
                 httpPost.setProtocolVersion(HttpVersion.HTTP_1_1);
@@ -179,6 +189,7 @@ public class HttpHelp {
 
             } else if (httpMethod.equals(HttpMethod.GET)) {
                 HttpGet httpGet = new HttpGet(url);
+                httpGet.setConfig(requestConfig);
                 httpGet.setHeaders(httpUtil.listHeadersToAll());
                 httpGet.setProtocolVersion(HttpVersion.HTTP_1_1);
                 httpResponse = httpClient.execute(httpGet);

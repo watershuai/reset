@@ -3,6 +3,22 @@ server:
 spring:
   application:
     name: reset-reptile
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    properties:
+      heartbeat:
+        interval:
+          ms: 4000
+        session:
+          timeout:
+            ms: 10000
+    producer:
+      properties:
+        max:
+          request:
+            size: 300000000
+      acks: -1
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 eureka:
   client:
     serviceUrl:
@@ -13,5 +29,8 @@ eureka:
     appname: reset-reptile
 logging:
   config: classpath:logback.xml
+kafka-topic:
+  reptile-pages: reptile-pages
+
 
 
