@@ -8,7 +8,6 @@ package com.water.reset.dto;
 public class UserTask {
     private String id;
     private String token;
-
     public String getId() {
         return id;
     }

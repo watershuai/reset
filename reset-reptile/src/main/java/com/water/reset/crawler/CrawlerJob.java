@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.water.reset.crawler.http.HttpHelp;
 import com.water.reset.dto.Message;
+import com.water.reset.dto.UserTask;
 import com.water.reset.redis.RedisUtils;
 import com.water.reset.service.IHttpCheck;
 import com.water.reset.utils.DataUtil;
@@ -39,6 +40,8 @@ public abstract class CrawlerJob implements IHttpCheck {
     private HttpHelp httpHelp;
     @Setter
     protected KafkaService kafkaService;
+    @Setter
+    protected UserTask userTask;
 
     public HttpHelp getHttpHelp(){
         return httpHelp;
@@ -50,7 +53,9 @@ public abstract class CrawlerJob implements IHttpCheck {
     * 对外爬虫入口
     **/
     public void grasp() {
+      long startTime=System.currentTimeMillis();
        doGrasp();
+       log.info("爬虫任务执行结束，耗时:"+(System.currentTimeMillis()-startTime)+"ms");
     }
 
     @Override
@@ -67,7 +72,6 @@ public abstract class CrawlerJob implements IHttpCheck {
      * */
     private void doGrasp() {
         executorService = new ThreadPoolExecutor(POOL_SIZE, MAX_POOL_SIZE, ALIVE_TIME, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(QUEUE));
-        long startTime=System.currentTimeMillis();
         executorService.execute(() -> {
             try {
                 crawl();
@@ -76,7 +80,6 @@ public abstract class CrawlerJob implements IHttpCheck {
             }
         });
         executorService.shutdown();
-        log.info("爬虫任务执行结束，耗时:"+(System.currentTimeMillis()-startTime)+"ms");
     }
     /**
      * 具体实现重写入口
@@ -92,7 +95,7 @@ public abstract class CrawlerJob implements IHttpCheck {
            message.setId(Tool.getId(3));
            message.setMsg(page);
            message.setSendTime(DataUtil.getCurrentTime());
-           message.setToken("");
+           message.setToken(userTask.getToken());
            kafkaService.sendMessage(message);
        }catch (Exception e){
            log.error("[{}]调用kafka服务异常：{}",message.getId(), e);

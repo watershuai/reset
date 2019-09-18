@@ -14,8 +14,8 @@ public interface IReptileService {
     /**
     * 向爬虫推送任务
     */
-    @PostMapping(value = "/reptile/task")
-    String task(@RequestBody UserTask userTask);
+    @PostMapping(value = "/reptile/create/task")
+    ResultInfo task(@RequestBody UserTask userTask);
     /**
      * 向爬虫发送消息
      */

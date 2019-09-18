@@ -5,6 +5,7 @@ import com.water.reset.crawler.CrawlerJob;
 import com.water.reset.crawler.plugin.BossRecruit;
 import com.water.reset.dto.Message;
 import com.water.reset.redis.RedisUtils;
+import com.water.reset.utils.DataUtil;
 import com.water.reset.utils.KafkaService;
 import com.water.reset.utils.Tool;
 import io.swagger.annotations.ApiOperation;
@@ -51,13 +52,16 @@ public class TestController {
 
     @PostMapping("/testRedis")
     @ApiOperation(value = "测试redis")
-    public void testRedis() {
+    public String testRedis() {
         String proxy= redisUtils.getValueByKey("proxyip:118.26.170.209:8080");
+        Tool.sleep(5000);
         if (StringUtils.isNotEmpty(proxy)){
-            log.info("获取到的代理为:"+proxy);
+
         }else {
             log.info("获取到的代理为空");
         }
+        log.info("获取到的代理为:"+proxy+",时间:"+DataUtil.getCurrentTime());
+        return proxy+":"+ DataUtil.getCurrentTime();
     }
 
     @PostMapping("/testKafka")

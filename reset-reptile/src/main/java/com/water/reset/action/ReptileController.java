@@ -2,8 +2,10 @@ package com.water.reset.action;
 
 import com.water.reset.crawler.CrawlerJob;
 import com.water.reset.crawler.plugin.BossRecruit;
+import com.water.reset.dto.ResultInfo;
 import com.water.reset.dto.UserTask;
 import com.water.reset.redis.RedisUtils;
+import com.water.reset.utils.KafkaService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -17,10 +19,23 @@ import javax.ws.rs.POST;
 @RequestMapping("/reptile")
 @Slf4j
 public class ReptileController {
-
+    @Autowired
+    private RedisUtils redisUtils;
+    @Autowired
+    private KafkaService kafkaService;
     @PostMapping("/create/task")
-    public String task(@RequestBody UserTask userTask) {
-        return userTask.getToken()+"访问成功了";
+    public ResultInfo task(@RequestBody UserTask userTask) {
+        ResultInfo resultInfo=null;
+        try {
+            CrawlerJob crawlerJob = new BossRecruit();
+            crawlerJob.setKafkaService(kafkaService);
+            crawlerJob.setUserTask(userTask);
+            crawlerJob.grasp();
+            resultInfo=new ResultInfo(true,"200","任务创建成功，并执行结束");
+        }catch (Exception e){
+            resultInfo=new ResultInfo(false,"201","任务执行异常");
+        }
+        return resultInfo;
     }
 
 }

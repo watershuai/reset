@@ -1,8 +1,10 @@
 package com.water.reset.action;
 
+import com.water.reset.domain.ResultInfo;
 import com.water.reset.domain.UserTask;
 import com.water.reset.feign.IReptileService;
 import com.water.reset.utils.Tool;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +21,12 @@ public class ReptileEnter {
     private IReptileService reptileService;
 
     @PostMapping("/create/task")
-    public String commonReptile() {
+    @ApiOperation(value = "网关推爬虫入口")
+    public ResultInfo commonReptile() {
         UserTask userTask = new UserTask();
         userTask.setToken(Tool.getToken());
-        String result = reptileService.task(userTask);
-        return result;
+        ResultInfo resultInfo = reptileService.task(userTask);
+        return resultInfo;
     }
 
     public static void main(String[] args) {

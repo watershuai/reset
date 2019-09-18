@@ -6,6 +6,7 @@ import com.water.reset.dto.Message;
 import com.water.reset.util.DataUtil;
 import com.water.reset.util.Tool;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,15 +24,13 @@ import java.util.List;
  */
 @Slf4j
 public class BossParse {
-   public String parse(String message){
+   public List<BossJob> parse(String message){
        List<BossJob> result=new ArrayList<>();
        JSONObject object= Tool.getJSONObject(message);
 
 
        String crawlerMessage=object.getString("msg");
        Document parse = Jsoup.parse(crawlerMessage);
-
-
 
        List<Element> elements= parse.select("#main > div > div.job-list > ul > li");
        for(Element e:elements){
@@ -50,15 +49,58 @@ public class BossParse {
 
 
            //公司类型
-           String companyType = e.select("div > div.info-company > div > p").text();
-           job.setCompanyType(companyType);
-           //要求
-           String yaoqiu = e.select("div > div.info-primary > p").text();
-           job.setCompanyPerson(yaoqiu);
+           String res="";
+           String yaoqiu="";
+           try {
+               res= e.select("div > div.info-company > div > p").html();
+               String[] ss = res.split("<em class=\"vline\"></em>");
+               int count=1;
+               for (String string : ss) {
+                   if (count == 1){
+                       job.setCompanyType(string);
+                   }
+                   if (count == 2){
+                       if (StringUtils.contains(string,"人")){
+                           job.setCompanyPerson(string);
+                       }else {
+                           job.setFinancing(string);
+                       }
+                   }
+                   if (count == 3){
+                       job.setCompanyPerson(string);
+                   }
+                   count++;
+               }
+               //要求
+               yaoqiu= e.select("div > div.info-primary > p").html();
+               String[] s2=yaoqiu.split("<em class=\"vline\"></em>");
+
+               int count2=1;
+               for (String string : s2) {
+                   if (count2 == 1){
+                       job.setCompanyAdress(string);
+                   }
+                   if (count2 == 2){
+                       if (StringUtils.contains(string,"年") || StringUtils.contains(string,"不限")){
+                           job.setJobTime(string);
+                       }else {
+                           job.setEducation(string);
+                       }
+                   }
+                   if (count2 == 3){
+                       job.setEducation(string);
+                   }
+                   count2++;
+               }
+           }catch (Exception e1){
+               log.info("发生异常:目标值:"+res+"目标值2:"+yaoqiu,e1);
+           }
+
 
            //谁招聘
            String who = e.select("div > div.info-publis > h3").text();
            job.setWho(who);
+           Tool.sleep(1000);
            //链接
            String href = e.select("div > div.info-primary > h3 > a").attr("href");
            job.setDetailUrl(href);
@@ -66,24 +108,23 @@ public class BossParse {
           // String createTime = e.select("div > div.info-publis > p").text();
            job.setCreatTime(DataUtil.getCurrentTime());
            job.setCrawlerTime(object.getString("sendTime"));
-
-           //获取工作列表数据
-           Document document=Jsoup.parse(crawlerMessage);
-           Elements job_primary = document.select("div[class='job-primary']");
-           //遍历取出每一条工作数据记录集合
-           List<String> mJobInfoList = job_primary.eachText();
-
-           for (String jobInfo : mJobInfoList) {
-               //可以根据空格做切割处理获取相关数据（注意：这里可以更精确的筛选对应标签取出对应值，我偷懒了）
-               String[] mSplit = jobInfo.split(" ");
-              // JobInfo mJobInfo = new JobInfo(mSplit[0], mSplit[1], mSplit[2], mSplit[3], mSplit[4], mSplit[5], mSplit[6], mSplit[7]);
-           }
-
-
-
            result.add(job);
        }
-
-       return null;
+       return result;
    }
+
+
+
+   public static void main(String[] args){
+       String res="互联网<em class=\"vline\"></em>已上市<em class=\"vline\"></em>1000-9999人";
+       String[] ss = res.split("<em class=\"vline\"></em>");
+       for (String string : ss) {
+           if(ss != null && !("".equals(string))) {
+               System.out.println(string);
+           }
+       }
+   }
+
+
+
 }

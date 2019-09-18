@@ -7,11 +7,13 @@ import java.io.Serializable;
  * @author:water
  * @Data:
  */
-public class ResultInfo implements Serializable {
+public class ResultInfo{
     private boolean success;
     private String msg;
     private String resultCode;
     private Object data;
+    public ResultInfo(){
+    }
     public ResultInfo(boolean success, String resultCode, String msg){
         this.success=success;
         this.resultCode=resultCode;

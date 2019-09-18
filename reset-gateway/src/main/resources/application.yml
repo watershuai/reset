@@ -14,6 +14,7 @@ eureka:
     instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${spring.application.instance_id:${server.port}}
     appname: reset-gateway
 
+
   spring:
     thymeleaf:
       cache: false
