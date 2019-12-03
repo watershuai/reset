@@ -2,19 +2,15 @@ package com.water.reset.parse.plugin;
 
 import com.alibaba.fastjson.JSONObject;
 import com.water.reset.dto.BossJob;
-import com.water.reset.dto.Message;
 import com.water.reset.util.DataUtil;
-import com.water.reset.util.Tool;
+import com.water.reset.utils.Tool;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

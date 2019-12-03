@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="reset" />
         <module name="reset-analysis" />
         <module name="reset-common" />
         <module name="reset-eureka" />

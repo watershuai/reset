@@ -1,23 +1,13 @@
 package com.water.reset.crawler;
 
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.water.reset.crawler.http.HttpHelp;
-import com.water.reset.dto.Message;
-import com.water.reset.dto.UserTask;
-import com.water.reset.redis.RedisUtils;
 import com.water.reset.service.IHttpCheck;
 import com.water.reset.utils.DataUtil;
 import com.water.reset.utils.KafkaService;
 import com.water.reset.utils.Tool;
-import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
-import org.apache.kafka.common.protocol.types.Field;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.*;

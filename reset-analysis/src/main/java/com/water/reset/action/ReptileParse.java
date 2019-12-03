@@ -2,7 +2,6 @@ package com.water.reset.action;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.water.reset.dto.BossJob;
-import com.water.reset.dto.ResultInfo;
 import com.water.reset.parse.plugin.BossParse;
 import com.water.reset.util.RedisKey;
 import com.water.reset.util.RedisUtils;

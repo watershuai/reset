@@ -6,16 +6,16 @@ package com.water.reset.dto;
  * @Data:
  */
 public class Message {
-    private Long id;    //id
+    private String  id;    //id
     private String token;
     private String msg; //消息
-    private String  sendTime;  //时间戳
+    private String sendTime;  //时间戳
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

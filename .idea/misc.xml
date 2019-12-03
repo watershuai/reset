@@ -8,6 +8,7 @@
         <option value="$PROJECT_DIR$/reset-eureka/pom.xml" />
         <option value="$PROJECT_DIR$/reset-gateway/pom.xml" />
         <option value="$PROJECT_DIR$/reset-reptile/pom.xml" />
+        <option value="$PROJECT_DIR$/reset-common/pom.xml" />
       </list>
     </option>
   </component>

@@ -1,12 +1,11 @@
 package com.water.reset.feign;
 
-import com.water.reset.domain.ResultInfo;
-import com.water.reset.domain.UserTask;
+import com.water.reset.dto.ResultInfo;
+import com.water.reset.dto.UserTask;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(value = "reset-reptile")
 @Component

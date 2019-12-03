@@ -1,6 +1,5 @@
 package com.water.reset.action;
 
-import com.alibaba.fastjson.JSONObject;
 import com.water.reset.crawler.CrawlerJob;
 import com.water.reset.crawler.plugin.BossRecruit;
 import com.water.reset.dto.Message;
@@ -14,7 +13,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
