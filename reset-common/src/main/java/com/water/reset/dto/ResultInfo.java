@@ -3,16 +3,21 @@ package com.water.reset.dto;
 public class ResultInfo {
     private boolean success;
     private String msg;
-    private String resultCode;
+    private Integer resultCode;
     private Object data;
     public ResultInfo(){
     }
-    public ResultInfo(boolean success, String resultCode, String msg){
+    public ResultInfo(Integer resultCode, String msg){
+        this.success=true;
+        this.resultCode=resultCode;
+        this.msg=msg;
+    }
+    public ResultInfo(boolean success, Integer resultCode, String msg){
         this.success=success;
         this.resultCode=resultCode;
         this.msg=msg;
     }
-    public ResultInfo(boolean success, String resultCode, String msg,Object data){
+    public ResultInfo(boolean success, Integer resultCode, String msg,Object data){
         this.success=success;
         this.resultCode=resultCode;
         this.msg=msg;
@@ -36,11 +41,11 @@ public class ResultInfo {
         this.msg = msg;
     }
 
-    public String getResultCode() {
+    public Integer getResultCode() {
         return resultCode;
     }
 
-    public void setResultCode(String resultCode) {
+    public void setResultCode(Integer resultCode) {
         this.resultCode = resultCode;
     }
 

@@ -1,9 +1,8 @@
 package com.water.reset.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.hihen.point.common.Result;
-import com.hihen.point.dto.Member;
-import com.hihen.point.dto.ResultCode;
+import com.water.reset.dto.ResultCode;
+import com.water.reset.dto.ResultInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -28,16 +27,16 @@ public class RepeatInterceptor extends HandlerInterceptorAdapter {
         if (StringUtils.isEmpty(token)){
             flag=1;
         }else {
-            Member user=(Member) request.getSession().getAttribute(token);
-            if (user == null){
-                flag=1;
-            }
+           // Member user=(Member) request.getSession().getAttribute(token);
+          //  if (user == null){
+             //   flag=1;
+           // }
         }
         if (flag ==1){
             response.setStatus(HttpServletResponse.SC_OK);
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json; charset=utf-8");
-            Result result=new Result(ResultCode.NO_LOGIN.getCode(),ResultCode.NO_LOGIN.getMessage());
+            ResultInfo result=new ResultInfo(ResultCode.NO_LOGIN.getCode(),ResultCode.NO_LOGIN.getMessage());
             PrintWriter out = null ;
             out = response.getWriter();
             out.write(JSON.toJSONString(result));
