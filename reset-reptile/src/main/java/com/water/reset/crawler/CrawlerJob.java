@@ -2,6 +2,8 @@ package com.water.reset.crawler;
 
 
 import com.water.reset.crawler.http.HttpHelp;
+import com.water.reset.dto.Message;
+import com.water.reset.dto.UserTask;
 import com.water.reset.service.IHttpCheck;
 import com.water.reset.utils.DataUtil;
 import com.water.reset.utils.KafkaService;

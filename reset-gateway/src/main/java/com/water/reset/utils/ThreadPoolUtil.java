@@ -28,12 +28,14 @@ public class ThreadPoolUtil {
             new LinkedBlockingQueue<Runnable>(workQueueSize),
             new ThreadPoolExecutor.CallerRunsPolicy()
     );
+
     public static ExecutorService threadPool() {
         return threaPool;
     }
 
     /**
      * 自定义异步线程池
+     *
      * @return
      */
 
@@ -62,14 +64,26 @@ public class ThreadPoolUtil {
 
         return executor;
     }
+
     public static void main(String[] args) {
+        ExecutorService executorService=Executors.newFixedThreadPool(100);
+       Thread myThread=new MyThread();
+        Thread myThread2=new MyThread();
+        Thread myThread3=new MyThread();
+        Thread myThread4=new MyThread();
+        Thread myThread5=new MyThread();
+        for (int i=1;i<=100;i++){
+            executorService.execute(myThread);
+        }
+        executorService.shutdown();
 
-        // print a normal message
-        System.out.println("Hello world!");
-
-        // check the number of processors available
-        System.out.println(""+Runtime.getRuntime().availableProcessors());
     }
 
 
+}
+class MyThread extends Thread{
+    @Override
+    public void run() {
+        System.out.println(Thread.currentThread().getName() + "正在执行。。。");
+    }
 }

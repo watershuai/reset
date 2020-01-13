@@ -3,6 +3,7 @@ package com.water.reset.action;
 import com.water.reset.crawler.CrawlerJob;
 import com.water.reset.crawler.plugin.BossRecruit;
 import com.water.reset.dto.ResultInfo;
+import com.water.reset.dto.UserTask;
 import com.water.reset.redis.RedisUtils;
 import com.water.reset.utils.KafkaService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +26,9 @@ public class ReptileController {
             crawlerJob.setKafkaService(kafkaService);
             crawlerJob.setUserTask(userTask);
             crawlerJob.grasp();
-            resultInfo=new ResultInfo(true,"200","任务创建成功，并执行结束");
+            resultInfo=new ResultInfo(200,"任务创建成功，并执行结束");
         }catch (Exception e){
-            resultInfo=new ResultInfo(false,"201","任务执行异常");
+            resultInfo=new ResultInfo(203,"任务执行异常");
         }
         return resultInfo;
     }
