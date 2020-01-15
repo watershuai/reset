@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.water.reset.dao.GoodInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.water.reset.dto.GoodInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="shop_id" property="shopId" jdbcType="BIGINT" />
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="supplier_id" property="supplierId" jdbcType="BIGINT" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="goods_type" property="goodsType" jdbcType="TINYINT" />
+    <result column="brand_id" property="brandId" jdbcType="INTEGER" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="goods_subheading" property="goodsSubheading" jdbcType="VARCHAR" />
+    <result column="goods_features" property="goodsFeatures" jdbcType="VARCHAR" />
+    <result column="return_rules" property="returnRules" jdbcType="TINYINT" />
+    <result column="default_img" property="defaultImg" jdbcType="VARCHAR" />
+    <result column="freight_template_id" property="freightTemplateId" jdbcType="BIGINT" />
+    <result column="desc_attr_info" property="descAttrInfo" jdbcType="VARCHAR" />
+    <result column="goods_sale_name" property="goodsSaleName" jdbcType="VARCHAR" />
+    <result column="sell_price" property="sellPrice" jdbcType="DECIMAL" />
+    <result column="supply_price" property="supplyPrice" jdbcType="DECIMAL" />
+    <result column="del_status" property="delStatus" jdbcType="TINYINT" />
+    <result column="count_view" property="countView" jdbcType="INTEGER" />
+    <result column="good_source" property="goodSource" jdbcType="INTEGER" />
+    <result column="up_low_status" property="upLowStatus" jdbcType="TINYINT" />
+    <result column="faq_img" property="faqImg" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_user_type" property="createUserType" jdbcType="TINYINT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, shop_id, shop_name, goods_id, supplier_id, supplier_name, goods_type, brand_id, 
+    goods_name, goods_subheading, goods_features, return_rules, default_img, freight_template_id, 
+    desc_attr_info, goods_sale_name, sell_price, supply_price, del_status, count_view, 
+    good_source, up_low_status, faq_img, create_time, create_user, create_user_type, 
+    update_time, update_user
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from good_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from good_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.water.reset.dto.GoodInfo" >
+    insert into good_info (id, shop_id, shop_name, 
+      goods_id, supplier_id, supplier_name, 
+      goods_type, brand_id, goods_name, 
+      goods_subheading, goods_features, return_rules, 
+      default_img, freight_template_id, desc_attr_info, 
+      goods_sale_name, sell_price, supply_price, 
+      del_status, count_view, good_source, 
+      up_low_status, faq_img, create_time, 
+      create_user, create_user_type, update_time, 
+      update_user)
+    values (#{id,jdbcType=BIGINT}, #{shopId,jdbcType=BIGINT}, #{shopName,jdbcType=VARCHAR}, 
+      #{goodsId,jdbcType=BIGINT}, #{supplierId,jdbcType=BIGINT}, #{supplierName,jdbcType=VARCHAR}, 
+      #{goodsType,jdbcType=TINYINT}, #{brandId,jdbcType=INTEGER}, #{goodsName,jdbcType=VARCHAR}, 
+      #{goodsSubheading,jdbcType=VARCHAR}, #{goodsFeatures,jdbcType=VARCHAR}, #{returnRules,jdbcType=TINYINT}, 
+      #{defaultImg,jdbcType=VARCHAR}, #{freightTemplateId,jdbcType=BIGINT}, #{descAttrInfo,jdbcType=VARCHAR}, 
+      #{goodsSaleName,jdbcType=VARCHAR}, #{sellPrice,jdbcType=DECIMAL}, #{supplyPrice,jdbcType=DECIMAL}, 
+      #{delStatus,jdbcType=TINYINT}, #{countView,jdbcType=INTEGER}, #{goodSource,jdbcType=INTEGER}, 
+      #{upLowStatus,jdbcType=TINYINT}, #{faqImg,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{createUserType,jdbcType=TINYINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.water.reset.dto.GoodInfo" >
+    insert into good_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="shopName != null" >
+        shop_name,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="supplierId != null" >
+        supplier_id,
+      </if>
+      <if test="supplierName != null" >
+        supplier_name,
+      </if>
+      <if test="goodsType != null" >
+        goods_type,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="goodsSubheading != null" >
+        goods_subheading,
+      </if>
+      <if test="goodsFeatures != null" >
+        goods_features,
+      </if>
+      <if test="returnRules != null" >
+        return_rules,
+      </if>
+      <if test="defaultImg != null" >
+        default_img,
+      </if>
+      <if test="freightTemplateId != null" >
+        freight_template_id,
+      </if>
+      <if test="descAttrInfo != null" >
+        desc_attr_info,
+      </if>
+      <if test="goodsSaleName != null" >
+        goods_sale_name,
+      </if>
+      <if test="sellPrice != null" >
+        sell_price,
+      </if>
+      <if test="supplyPrice != null" >
+        supply_price,
+      </if>
+      <if test="delStatus != null" >
+        del_status,
+      </if>
+      <if test="countView != null" >
+        count_view,
+      </if>
+      <if test="goodSource != null" >
+        good_source,
+      </if>
+      <if test="upLowStatus != null" >
+        up_low_status,
+      </if>
+      <if test="faqImg != null" >
+        faq_img,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createUserType != null" >
+        create_user_type,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=BIGINT},
+      </if>
+      <if test="shopName != null" >
+        #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="supplierId != null" >
+        #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="supplierName != null" >
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsType != null" >
+        #{goodsType,jdbcType=TINYINT},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSubheading != null" >
+        #{goodsSubheading,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsFeatures != null" >
+        #{goodsFeatures,jdbcType=VARCHAR},
+      </if>
+      <if test="returnRules != null" >
+        #{returnRules,jdbcType=TINYINT},
+      </if>
+      <if test="defaultImg != null" >
+        #{defaultImg,jdbcType=VARCHAR},
+      </if>
+      <if test="freightTemplateId != null" >
+        #{freightTemplateId,jdbcType=BIGINT},
+      </if>
+      <if test="descAttrInfo != null" >
+        #{descAttrInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSaleName != null" >
+        #{goodsSaleName,jdbcType=VARCHAR},
+      </if>
+      <if test="sellPrice != null" >
+        #{sellPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="supplyPrice != null" >
+        #{supplyPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="delStatus != null" >
+        #{delStatus,jdbcType=TINYINT},
+      </if>
+      <if test="countView != null" >
+        #{countView,jdbcType=INTEGER},
+      </if>
+      <if test="goodSource != null" >
+        #{goodSource,jdbcType=INTEGER},
+      </if>
+      <if test="upLowStatus != null" >
+        #{upLowStatus,jdbcType=TINYINT},
+      </if>
+      <if test="faqImg != null" >
+        #{faqImg,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserType != null" >
+        #{createUserType,jdbcType=TINYINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.water.reset.dto.GoodInfo" >
+    update good_info
+    <set >
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=BIGINT},
+      </if>
+      <if test="shopName != null" >
+        shop_name = #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="supplierId != null" >
+        supplier_id = #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="supplierName != null" >
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsType != null" >
+        goods_type = #{goodsType,jdbcType=TINYINT},
+      </if>
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSubheading != null" >
+        goods_subheading = #{goodsSubheading,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsFeatures != null" >
+        goods_features = #{goodsFeatures,jdbcType=VARCHAR},
+      </if>
+      <if test="returnRules != null" >
+        return_rules = #{returnRules,jdbcType=TINYINT},
+      </if>
+      <if test="defaultImg != null" >
+        default_img = #{defaultImg,jdbcType=VARCHAR},
+      </if>
+      <if test="freightTemplateId != null" >
+        freight_template_id = #{freightTemplateId,jdbcType=BIGINT},
+      </if>
+      <if test="descAttrInfo != null" >
+        desc_attr_info = #{descAttrInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSaleName != null" >
+        goods_sale_name = #{goodsSaleName,jdbcType=VARCHAR},
+      </if>
+      <if test="sellPrice != null" >
+        sell_price = #{sellPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="supplyPrice != null" >
+        supply_price = #{supplyPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="delStatus != null" >
+        del_status = #{delStatus,jdbcType=TINYINT},
+      </if>
+      <if test="countView != null" >
+        count_view = #{countView,jdbcType=INTEGER},
+      </if>
+      <if test="goodSource != null" >
+        good_source = #{goodSource,jdbcType=INTEGER},
+      </if>
+      <if test="upLowStatus != null" >
+        up_low_status = #{upLowStatus,jdbcType=TINYINT},
+      </if>
+      <if test="faqImg != null" >
+        faq_img = #{faqImg,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserType != null" >
+        create_user_type = #{createUserType,jdbcType=TINYINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.water.reset.dto.GoodInfo" >
+    update good_info
+    set shop_id = #{shopId,jdbcType=BIGINT},
+      shop_name = #{shopName,jdbcType=VARCHAR},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      supplier_id = #{supplierId,jdbcType=BIGINT},
+      supplier_name = #{supplierName,jdbcType=VARCHAR},
+      goods_type = #{goodsType,jdbcType=TINYINT},
+      brand_id = #{brandId,jdbcType=INTEGER},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_subheading = #{goodsSubheading,jdbcType=VARCHAR},
+      goods_features = #{goodsFeatures,jdbcType=VARCHAR},
+      return_rules = #{returnRules,jdbcType=TINYINT},
+      default_img = #{defaultImg,jdbcType=VARCHAR},
+      freight_template_id = #{freightTemplateId,jdbcType=BIGINT},
+      desc_attr_info = #{descAttrInfo,jdbcType=VARCHAR},
+      goods_sale_name = #{goodsSaleName,jdbcType=VARCHAR},
+      sell_price = #{sellPrice,jdbcType=DECIMAL},
+      supply_price = #{supplyPrice,jdbcType=DECIMAL},
+      del_status = #{delStatus,jdbcType=TINYINT},
+      count_view = #{countView,jdbcType=INTEGER},
+      good_source = #{goodSource,jdbcType=INTEGER},
+      up_low_status = #{upLowStatus,jdbcType=TINYINT},
+      faq_img = #{faqImg,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_user_type = #{createUserType,jdbcType=TINYINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

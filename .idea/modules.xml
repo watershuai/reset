@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/reset.iml" filepath="$PROJECT_DIR$/reset.iml" />
       <module fileurl="file://$PROJECT_DIR$/reset-analysis/reset-analysis.iml" filepath="$PROJECT_DIR$/reset-analysis/reset-analysis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/reset-api-shop/reset-api-shop.iml" filepath="$PROJECT_DIR$/reset-api-shop/reset-api-shop.iml" />
       <module fileurl="file://$PROJECT_DIR$/reset-common/reset-common.iml" filepath="$PROJECT_DIR$/reset-common/reset-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/reset-eureka/reset-eureka.iml" filepath="$PROJECT_DIR$/reset-eureka/reset-eureka.iml" />
       <module fileurl="file://$PROJECT_DIR$/reset-gateway/reset-gateway.iml" filepath="$PROJECT_DIR$/reset-gateway/reset-gateway.iml" />

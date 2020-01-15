@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="reset" />
         <module name="reset-analysis" />
+        <module name="reset-api-shop" />
         <module name="reset-common" />
         <module name="reset-eureka" />
         <module name="reset-gateway" />
@@ -17,6 +18,7 @@
     <bytecodeTargetLevel>
       <module name="reset" target="1.8" />
       <module name="reset-analysis" target="1.8" />
+      <module name="reset-api-shop" target="1.8" />
       <module name="reset-common" target="1.8" />
       <module name="reset-eureka" target="1.8" />
       <module name="reset-gateway" target="1.8" />
