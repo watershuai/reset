@@ -24,9 +24,9 @@ import java.util.concurrent.TimeUnit;
 @Controller
 @Slf4j
 public class ReptileParse {
-    private static final Integer POOL_SIZE = 50;
-    private static final Integer MAX_POOL_SIZE = 100;
-    private static final Integer MAX_WAIT = 150;
+    private static final Integer POOL_SIZE = 5;
+    private static final Integer MAX_POOL_SIZE = 5;
+    private static final Integer MAX_WAIT = 5;
     private static final Long ALIVE_TIME = 0L;
     private static final double TASK_IS_FULL = 0.9;
     private static final double TASK_NEARLY_FULL = 0.8;

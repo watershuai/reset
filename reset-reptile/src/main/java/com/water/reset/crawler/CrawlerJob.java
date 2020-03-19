@@ -45,9 +45,7 @@ public abstract class CrawlerJob implements IHttpCheck {
     * 对外爬虫入口
     **/
     public void grasp() {
-      long startTime=System.currentTimeMillis();
        doGrasp();
-       log.info("爬虫任务执行结束，耗时:"+(System.currentTimeMillis()-startTime)+"ms");
     }
 
     @Override
@@ -66,7 +64,9 @@ public abstract class CrawlerJob implements IHttpCheck {
         executorService = new ThreadPoolExecutor(POOL_SIZE, MAX_POOL_SIZE, ALIVE_TIME, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(QUEUE));
         executorService.execute(() -> {
             try {
+                long startTime=System.currentTimeMillis();
                 crawl();
+                log.info("爬虫任务执行结束，耗时:"+(System.currentTimeMillis()-startTime)+"ms");
             }catch (Exception e){
                 log.error("爬虫任务出现异常",e);
             }

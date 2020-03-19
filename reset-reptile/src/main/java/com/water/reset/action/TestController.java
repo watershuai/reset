@@ -2,10 +2,12 @@ package com.water.reset.action;
 
 import com.water.reset.crawler.CrawlerJob;
 import com.water.reset.crawler.plugin.BossRecruit;
+import com.water.reset.crawler.plugin.LeJIaCrawler;
 import com.water.reset.dto.Message;
 import com.water.reset.redis.RedisUtils;
 import com.water.reset.utils.DataUtil;
 import com.water.reset.utils.KafkaService;
+import com.water.reset.utils.PluginManager;
 import com.water.reset.utils.Tool;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -68,6 +70,10 @@ public class TestController {
         Message message1 = new Message();
         message1.setMsg("599632114");
        kafkaService.sendMessage(message1);
+    }
+
+    public static void main(String[]args) throws ClassNotFoundException {
+        PluginManager.showPlugin();
     }
 
 

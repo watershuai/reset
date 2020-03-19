@@ -1,6 +1,8 @@
 package com.water.reset.utils;
 
+import com.water.reset.annotation.InputLog;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -8,8 +10,10 @@ import java.net.NetworkInterface;
 import java.util.Enumeration;
 
 @Slf4j
+@Component
 public class IpUtils {
-    public static String getIpAddr() {
+    @InputLog(value = "公共给")
+    public  String getIpAddr() {
         try {
             Enumeration<NetworkInterface> allNetInterfaces = NetworkInterface.getNetworkInterfaces();
             InetAddress ip = null;
@@ -33,7 +37,5 @@ public class IpUtils {
         }
         return null;
     }
-    public static void main(String[]args){
-        System.out.print(getIpAddr());
-    }
+
 }

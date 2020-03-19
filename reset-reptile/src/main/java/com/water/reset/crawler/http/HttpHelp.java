@@ -1,5 +1,7 @@
 package com.water.reset.crawler.http;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.water.reset.dto.HttpInfo;
 import com.water.reset.enums.HttpMethod;
 import com.water.reset.service.IHttpCheck;
@@ -196,8 +198,14 @@ public class HttpHelp {
             }
             HttpEntity httpEntity = httpResponse.getEntity();
             if (!StringUtils.isEmpty(httpEntity)) {
-                byte[] rspdata = EntityUtils.toByteArray(httpEntity);
-                httpInfo.setResultString(new String(rspdata, getCharset(reqEncoding)));
+                //byte[] rspdata = EntityUtils.toByteArray(httpEntity);
+                String entity = EntityUtils.toString(httpEntity, "GBK");
+                if (!entity.contains("</body>")) {  //如果是json数据中文会出现unicode编码，解决此方法
+                    JSONObject json = JSONObject.parseObject(entity);
+                    httpInfo.setResultString(JSON.toJSONString(json));
+                }else {
+                    httpInfo.setResultString(entity);
+                }
             }
             httpInfo.setStatusCode(httpResponse.getStatusLine().getStatusCode());
         } catch (IOException e) {

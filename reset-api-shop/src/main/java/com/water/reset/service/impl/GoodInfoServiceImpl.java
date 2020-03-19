@@ -1,5 +1,6 @@
 package com.water.reset.service.impl;
 
+import com.water.reset.annotation.InputLog;
 import com.water.reset.dao.GoodInfoMapper;
 import com.water.reset.dto.GoodInfo;
 import com.water.reset.service.GoodInfoService;
@@ -21,8 +22,10 @@ public class GoodInfoServiceImpl implements GoodInfoService {
     }
 
     @Override
+    @InputLog(value = "吃鸡腿")
     public int insertSelective(GoodInfo record) {
-        return goodInfoMapper.insertSelective(record);
+        //return goodInfoMapper.insertSelective(record);
+        return 1;
     }
 
     @Override

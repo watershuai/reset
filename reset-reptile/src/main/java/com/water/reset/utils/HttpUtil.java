@@ -43,7 +43,7 @@ public final class HttpUtil {
    public HttpUtil(){
        headerList=new ArrayList<>();
        headerList.add(new BasicHeader(ACCEPT, DEFAULT_ACCEPT_VALUE));
-       headerList.add(new BasicHeader(CONTENT_TYPE, "application/x-www-form-urlencoded"));//form表单
+       headerList.add(new BasicHeader(CONTENT_TYPE, "application/json;charset=UTF-8"));//form表单
        headerList.add(new BasicHeader(USERAGENT, DEFAULT_USERAGENT_VALUE));//默认代理客户端头
        //禁止服务器使用缓存
        headerList.add(new BasicHeader(CACHE_CONTROL, DEFAULT_CACHE_CONTROL_VALUE));
