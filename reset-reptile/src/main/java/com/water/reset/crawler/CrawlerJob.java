@@ -22,9 +22,9 @@ import java.util.concurrent.*;
 @Slf4j
 @Service
 public abstract class CrawlerJob implements IHttpCheck {
-    private static final Integer POOL_SIZE = 6;
-    private static final Integer MAX_POOL_SIZE = 17;
-    private static final Integer QUEUE = 10;
+    private static final Integer POOL_SIZE = 1;
+    private static final Integer MAX_POOL_SIZE = 1;
+    private static final Integer QUEUE = 1;
     private static final Long ALIVE_TIME = 0L;
     private final ConcurrentHashMap<String, String> parsePage=new ConcurrentHashMap<>();
     private ThreadPoolExecutor executorService;
@@ -62,16 +62,18 @@ public abstract class CrawlerJob implements IHttpCheck {
      * */
     private void doGrasp() {
         executorService = new ThreadPoolExecutor(POOL_SIZE, MAX_POOL_SIZE, ALIVE_TIME, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(QUEUE));
-        executorService.execute(() -> {
-            try {
-                long startTime=System.currentTimeMillis();
-                crawl();
-                log.info("爬虫任务执行结束，耗时:"+(System.currentTimeMillis()-startTime)+"ms");
-            }catch (Exception e){
-                log.error("爬虫任务出现异常",e);
-            }
-        });
+            executorService.execute(() -> {
+                try {
+                    long startTime = System.currentTimeMillis();
+                    crawl();
+                    log.info("爬虫任务执行结束，耗时:" + (System.currentTimeMillis() - startTime) + "ms");
+                } catch (Exception e) {
+                    log.error("爬虫任务出现异常", e);
+                }
+            });
+        log.info("爬虫任务执行关闭线程池前");
         executorService.shutdown();
+        log.info("爬虫任务执行关闭线程池后");
     }
     /**
      * 具体实现重写入口
@@ -88,6 +90,7 @@ public abstract class CrawlerJob implements IHttpCheck {
            message.setMsg(page);
            message.setSendTime(DataUtil.getCurrentTime());
            message.setToken(userTask.getToken());
+           message.setSite(userTask.getSite());
            kafkaService.sendMessage(message);
        }catch (Exception e){
            log.error("[{}]调用kafka服务异常：{}",message.getId(), e);

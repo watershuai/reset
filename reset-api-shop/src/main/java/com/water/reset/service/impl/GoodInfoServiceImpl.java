@@ -22,10 +22,8 @@ public class GoodInfoServiceImpl implements GoodInfoService {
     }
 
     @Override
-    @InputLog(value = "吃鸡腿")
     public int insertSelective(GoodInfo record) {
-        //return goodInfoMapper.insertSelective(record);
-        return 1;
+        return goodInfoMapper.insertSelective(record);
     }
 
     @Override

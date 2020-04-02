@@ -2,6 +2,7 @@ package com.water.reset.parse.plugin;
 
 import com.alibaba.fastjson.JSONObject;
 import com.water.reset.dto.BossJob;
+import com.water.reset.parse.ParseJob;
 import com.water.reset.util.DataUtil;
 import com.water.reset.utils.Tool;
 import lombok.extern.slf4j.Slf4j;
@@ -19,12 +20,9 @@ import java.util.List;
  * @Data:
  */
 @Slf4j
-public class BossParse {
-   public List<BossJob> parse(String message){
-       List<BossJob> result=new ArrayList<>();
-       JSONObject object= Tool.getJSONObject(message);
-
-
+public class BossParse extends ParseJob {
+    @Override
+    public void parse(JSONObject object){
        String crawlerMessage=object.getString("msg");
        Document parse = Jsoup.parse(crawlerMessage);
 
@@ -104,9 +102,7 @@ public class BossParse {
           // String createTime = e.select("div > div.info-publis > p").text();
            job.setCreatTime(DataUtil.getCurrentTime());
            job.setCrawlerTime(object.getString("sendTime"));
-           result.add(job);
        }
-       return result;
    }
 
 

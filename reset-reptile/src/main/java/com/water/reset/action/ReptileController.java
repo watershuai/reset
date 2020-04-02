@@ -33,6 +33,7 @@ public class ReptileController {
             }
         }catch (Exception e){
             resultInfo=new ResultInfo(203,"任务执行异常");
+            log.error("爬虫异常信息",e);
         }
         return resultInfo;
     }

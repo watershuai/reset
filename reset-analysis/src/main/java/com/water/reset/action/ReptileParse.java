@@ -1,10 +1,14 @@
 package com.water.reset.action;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.water.reset.dto.BossJob;
+import com.water.reset.parse.ParseJob;
 import com.water.reset.parse.plugin.BossParse;
+import com.water.reset.util.PluginManager;
 import com.water.reset.util.RedisKey;
 import com.water.reset.util.RedisUtils;
+import com.water.reset.utils.Tool;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -42,11 +46,9 @@ public class ReptileParse {
         parsePool.execute(()->{
             long startTime=System.currentTimeMillis();
             log.info(Thread.currentThread().getName()+"消费者收到消息:" + message);
-            BossParse bossParse=new BossParse();
-            List<BossJob> bossJobs=bossParse.parse(message);
-            for (BossJob bossJob:bossJobs){
-                redisUtils.insertObject(RedisKey.key("Boss-"+bossJob.getCompanyName()+""),bossJob,-1L);
-            }
+            JSONObject object= Tool.getJSONObject(message);
+            ParseJob parseJob= PluginManager.getPlugin(object.getString("site"));
+            parseJob.parse(object);
             log.info(Thread.currentThread().getName()+"已处理完一批");
             log.info("解析任务执行结束，耗时:"+(System.currentTimeMillis()-startTime)+"ms");
             count++;

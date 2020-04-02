@@ -60,5 +60,5 @@ eureka:
   instance:
     prefer-ip-address: true
     instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${spring.application.instance_id:${server.port}}
-    appname: reset-analysis
+    appname: reset-api-shop
 

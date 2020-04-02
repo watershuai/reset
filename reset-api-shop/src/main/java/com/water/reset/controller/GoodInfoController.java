@@ -12,16 +12,18 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/api-shop")
 public class GoodInfoController {
-    /*@Autowired
+    @Autowired
     private GoodInfoService goodInfoService;
     @Autowired
-    private IpUtils ipUtils;*/
+    private IpUtils ipUtils;
     public static final String ss="3333";
-    @GetMapping("/goods/insertGoods/{id}/{name}")
-    public ResultInfo insertGoods(@PathVariable("id") String id, @PathVariable("name") String name){
-        //int row=goodInfoService.insertSelective(goodInfo);
-        String s1=id+"......"+name;
-        return new ResultInfo(200, s1);
+    @PostMapping("/goods/insertGoods")
+    public ResultInfo insertGoods(@RequestBody GoodInfo goodInfo){
+        int row=goodInfoService.insertSelective(goodInfo);
+        if (row == 0){
+            return new ResultInfo(201, "新增商品失败");
+        }
+        return new ResultInfo(200, "新增商品成功");
     }
     @InputLog(value = "45545")
     @RequestMapping(value = "/say")
