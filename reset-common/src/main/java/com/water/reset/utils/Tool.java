@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -113,5 +114,46 @@ public class Tool {
         } catch (JSONException e) {
             return false;
         }
+    }
+    public  static Long getLastPeroid(int type, Date date){
+        //SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //String day = format.format(Date);
+        Calendar c = Calendar.getInstance();
+        if (0 == type){
+            //过去1天
+            c.setTime(date);
+            c.add(Calendar.DATE, -1);
+            Date d = c.getTime();
+            return d.getTime();
+        }else if (1 == type){
+            //过去7天
+            c.setTime(date);
+            c.add(Calendar.DATE, -7);
+            Date d = c.getTime();
+            return d.getTime();
+        }else if (2 == type){
+            //过去一月
+            c.setTime(date);
+            c.add(Calendar.MONTH, -6);
+            Date m = c.getTime();
+            return m.getTime();
+        }else if (3 == type){
+            //过去一年
+            c.setTime(date);
+            c.add(Calendar.YEAR, -1);
+            Date y = c.getTime();
+            return y.getTime();
+        }else if (4 == type){
+            //过去二十年
+            c.setTime(date);
+            c.add(Calendar.YEAR, -20);
+            Date y = c.getTime();
+            return y.getTime();
+        }
+        //过去1天
+        c.setTime(date);
+        c.add(Calendar.DATE, -1);
+        Date d = c.getTime();
+        return d.getTime();
     }
 }
