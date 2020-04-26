@@ -3,6 +3,7 @@ package com.water.reset.utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.water.reset.crawler.http.HttpHelp;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -112,6 +113,21 @@ public class Tool {
             return true;
         } catch (JSONException e) {
             return false;
+        }
+    }
+    /**
+     * @param ip ip地址
+     * @author:water
+     * @Data 2020/04/26
+     * @Description 根据ip获取地理位置
+     */
+    public static String getAdressByIp(String ip) {
+        try {
+            HttpHelp httpHelp=new HttpHelp();
+            String result=httpHelp.sendGet("http://gwgp-hye6ycojwut.n.bdcloudapi.com/getIpInfo?ip="+ip);
+            return result;
+        } catch (JSONException e) {
+            return "";
         }
     }
 }
