@@ -2,12 +2,18 @@ package com.water.reset.utils;
 
 import com.water.reset.annotation.InputLog;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.common.metrics.stats.Count;
 import org.springframework.stereotype.Component;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Slf4j
 @Component
@@ -35,7 +41,28 @@ public class IpUtils {
         } catch (Exception e) {
             log.error("获取ip地址失败，{}",e);
         }
+        Lock lock=new ReentrantLock(true);
+        lock.lock();
+        CountDownLatch countDownLatch=new CountDownLatch(2);
+        Map<String,String> map=new HashMap<>();
+        map.put("f","d");
         return null;
     }
 
 }
+ class B{
+    public static B t1 = new B();
+    public static B t2 = new B();
+    {
+        System.out.println("构造块");
+    }
+    static
+    {
+        System.out.println("静态块");
+    }
+    public static void main(String[] args)
+    {
+        B t = new B();
+    }
+}
+
