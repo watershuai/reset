@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -54,5 +55,18 @@ public class ReptileParse {
             count++;
         });
         log.info("暂时kafka无任务:处理任务数为:"+count);
+    }
+    @RequestMapping("/test/thread")
+    public void crawlerParse2(){
+        parsePool.execute(()->{
+            long startTime=System.currentTimeMillis();
+            log.info(Thread.currentThread().getName()+"消费者收到消息:");
+            Tool.sleep(8000);
+            log.info(Thread.currentThread().getName()+"已处理完一批，耗时:"+(System.currentTimeMillis()-startTime)+"ms");
+            count++;
+        });
+        parsePool.shutdown();
+        log.info("暂时kafka无任务:处理任务数为:"+count);
+
     }
 }
